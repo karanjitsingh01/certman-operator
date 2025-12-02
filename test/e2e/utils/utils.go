@@ -315,7 +315,7 @@ func GetEnvOrDefault(envVar, defaultValue string) string {
 
 func getSecretAndAccessKeys() (accesskey, secretkey string) {
 
-	accesskey = SanitizeInput(GetEnvOrDefault("AWS_ACCESS_KEY", "testAccessKey"))
+	accesskey = SanitizeInput(GetEnvOrDefault("AWS_ACCESS_KEY_ID", "testAccessKey"))
 	secretkey = SanitizeInput(GetEnvOrDefault("AWS_SECRET_ACCESS_KEY", "testSecretAccessKey"))
 	return
 
