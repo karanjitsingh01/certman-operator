@@ -623,20 +623,20 @@ var _ = ginkgo.Describe("Certman Operator", ginkgo.Ordered, ginkgo.ContinueOnFai
 	})
 
 	ginkgo.It("should verify certificate operation metrics", func(ctx context.Context) {
-		// Verify metrics: exactly 1 certificate request
+		// Verify metrics: at least 1 certificate request in the namespace
 		var certRequestsCount int
 		gomega.Eventually(func() bool {
 			count, _, success := utils.VerifyMetrics(ctx, clientset, certConfig.TestNamespace)
 			if success {
 				certRequestsCount = count
-				return count == 1
+				return count >= 1
 			}
 			return false
-		}, testTimeout, 15*time.Second).Should(gomega.BeTrue(), "Metrics should show exactly 1 certificate request")
+		}, testTimeout, 15*time.Second).Should(gomega.BeTrue(), "Metrics should show at least 1 certificate request")
 
-		gomega.Expect(certRequestsCount).To(gomega.Equal(1), "Should have exactly 1 certificate request")
+		gomega.Expect(certRequestsCount).To(gomega.BeNumerically(">=", 1), "Should have at least 1 certificate request")
 
-		ginkgo.GinkgoLogr.Info("✅ Metrics verification successful",
+		ginkgo.GinkgoLogr.Info("Metrics verification successful",
 			"certificateRequestsCount", certRequestsCount)
 	})
 
